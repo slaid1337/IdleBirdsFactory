@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40526b87280ce4a1aa35aa36ecc932d9, type: 3}
+  m_Name: 1hBoost2
+  m_EditorClassIdentifier: 
+  TypeBooster: 2
+  Description: Boost x2 income for 1h
+  BoostForce: 2
+  Duration: 1
+  Cost: 50
+  BoostImage: {fileID: 21300000, guid: 47c3fcd78188d403d8e82e60b4e327b3, type: 3}
+  number: 1

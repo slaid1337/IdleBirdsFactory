@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: pizza-bird
+  m_EditorClassIdentifier: 
+  Name: pizza-bird
+  Bonus: 1.25
+  Image: {fileID: 7495759086073046822, guid: 6799c77a5dbe945b3b2eee7829e345e9, type: 3}
+  Image2: {fileID: 8010381056769072575, guid: 6799c77a5dbe945b3b2eee7829e345e9, type: 3}
+  Image3: {fileID: 3854512896122644729, guid: 6799c77a5dbe945b3b2eee7829e345e9, type: 3}
+  IsTaken: 0

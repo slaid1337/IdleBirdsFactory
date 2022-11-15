@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: dino
+  m_EditorClassIdentifier: 
+  Name: dino-bird
+  Bonus: 1.75
+  Image: {fileID: -3573707866370644383, guid: ad6e8a544cae24ffb9d278cc45388873, type: 3}
+  Image2: {fileID: 5026325226248502842, guid: ad6e8a544cae24ffb9d278cc45388873, type: 3}
+  Image3: {fileID: -8286803305143966454, guid: ad6e8a544cae24ffb9d278cc45388873, type: 3}
+  IsTaken: 0

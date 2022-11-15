@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: donut
+  m_EditorClassIdentifier: 
+  Name: bird-donut
+  Bonus: 1.5
+  Image: {fileID: 5289587564602681009, guid: 7eba8e4f462ac488495668bf0f15256e, type: 3}
+  Image2: {fileID: -4805708157641923487, guid: 7eba8e4f462ac488495668bf0f15256e, type: 3}
+  Image3: {fileID: -9090881951835967960, guid: 7eba8e4f462ac488495668bf0f15256e, type: 3}
+  IsTaken: 0

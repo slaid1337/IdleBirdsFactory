@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "379656700744",
+    "project_id": "idle-birds-factory-3039536",
+    "storage_bucket": "idle-birds-factory-3039536.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379656700744:android:6652117528592d4d54297d",
+        "android_client_info": {
+          "package_name": "com.VysralGames.IdleBirdsFactory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379656700744-90grauqbvo9ihl8c9klurs0lu9dv5bg6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.VysralGames.IdleBirdsFactory",
+            "certificate_hash": "7e5bafc1fc9176ace637ade363429a8ab52adcc3"
+          }
+        },
+        {
+          "client_id": "379656700744-4tj3khofb1c1sufnm14sf3959qb4h04e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6_irLERQpfVFkwv-4JuhsUBO3-l3b9A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379656700744-4tj3khofb1c1sufnm14sf3959qb4h04e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-2117946503817885~7691193381"
+    }
+  ],
+  "configuration_version": "1"
+}

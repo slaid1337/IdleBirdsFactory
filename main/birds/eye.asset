@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: eye
+  m_EditorClassIdentifier: 
+  Name: eye
+  Bonus: 1.75
+  Image: {fileID: -8922665585398044338, guid: 721291f5b502d467398e6c67f33027ae, type: 3}
+  Image2: {fileID: -8770022994260723691, guid: 721291f5b502d467398e6c67f33027ae, type: 3}
+  Image3: {fileID: 4134753940781420950, guid: 721291f5b502d467398e6c67f33027ae, type: 3}
+  IsTaken: 0

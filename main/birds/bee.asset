@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: bee
+  m_EditorClassIdentifier: 
+  Name: bird-bee
+  Bonus: 1.5
+  Image: {fileID: 4401154378929496252, guid: be98e14a9dba14c2ea190bb665d4ba2e, type: 3}
+  Image2: {fileID: -9138116583943853649, guid: be98e14a9dba14c2ea190bb665d4ba2e, type: 3}
+  Image3: {fileID: -7174149826156227203, guid: be98e14a9dba14c2ea190bb665d4ba2e, type: 3}
+  IsTaken: 0

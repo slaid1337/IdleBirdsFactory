@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: builder
+  m_EditorClassIdentifier: 
+  Name: builder
+  Bonus: 1.75
+  Image: {fileID: -8934701286673590066, guid: 4f4f92fa21c4440a7b05ef5b28a5bbef, type: 3}
+  Image2: {fileID: 8739518766289784674, guid: 4f4f92fa21c4440a7b05ef5b28a5bbef, type: 3}
+  Image3: {fileID: -1683935896700564590, guid: 4f4f92fa21c4440a7b05ef5b28a5bbef, type: 3}
+  IsTaken: 0

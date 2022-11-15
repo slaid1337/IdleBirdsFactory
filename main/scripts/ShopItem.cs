@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class ShopItem : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI _header;
+    public BoosterObject _boosterObject;
+
+    public void RefreshHeader(string text)
+    {
+        _header.text = text;
+    }
+}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1588820e53f8c4fb4bc0fef7ee4b5a13, type: 3}
+  m_Name: blue-bird
+  m_EditorClassIdentifier: 
+  Name: blue-bird
+  Bonus: 1
+  Image: {fileID: -3726195432219241384, guid: 7d4740c551370448888e74f3e2dd86c0, type: 3}
+  Image2: {fileID: -6802578994028433462, guid: 7d4740c551370448888e74f3e2dd86c0, type: 3}
+  Image3: {fileID: -2529197320511574328, guid: 7d4740c551370448888e74f3e2dd86c0, type: 3}
+  IsTaken: 0

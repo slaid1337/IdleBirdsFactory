@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="gcm_defaultSenderId" translatable="false">379656700744</string>
+  <string name="google_storage_bucket" translatable="false">idle-birds-factory-3039536.appspot.com</string>
+  <string name="project_id" translatable="false">idle-birds-factory-3039536</string>
+  <string name="google_api_key" translatable="false">AIzaSyB6_irLERQpfVFkwv-4JuhsUBO3-l3b9A0</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB6_irLERQpfVFkwv-4JuhsUBO3-l3b9A0</string>
+  <string name="google_app_id" translatable="false">1:379656700744:android:6652117528592d4d54297d</string>
+  <string name="default_android_client_id" translatable="false">379656700744-90grauqbvo9ihl8c9klurs0lu9dv5bg6.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">379656700744-4tj3khofb1c1sufnm14sf3959qb4h04e.apps.googleusercontent.com</string>
+</resources>
