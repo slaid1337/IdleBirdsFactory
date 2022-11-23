@@ -24,6 +24,5 @@ public class SwipeLogger : MonoBehaviour
             _tutorial._hand_swipe.SetActive(false);
             _hand_shop.SetActive(true);
         }
-        SwipeDetector.OnSwipe -= SwipeDetector_OnSwipe;
     }
 }

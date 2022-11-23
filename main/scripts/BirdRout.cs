@@ -11,11 +11,6 @@ public class BirdRout : MonoBehaviour
     private GameController _gameController;
     public List<Cell> _cells;
 
-    private float _tParam;
-    private bool _coroutineAllowed;
-
-    private int _routToGo;
-    private bool _isMovingLeft;
     private float _scaleStep;
     private bool _isCharging;
     [SerializeField] private float _scalingSpeed;
@@ -28,8 +23,28 @@ public class BirdRout : MonoBehaviour
 
     private Transform[] routes;
 
+    public RectTransform pointA;
+    public RectTransform pointB;
+
+    [SerializeField] private float YSpeed;
+    [SerializeField] private float YAmplitude;
+    [SerializeField] private float Speed;
+    [SerializeField] private float AmplitudeOffset;
+    [SerializeField] private float Amplitude;
+    private UnityEngine.Vector3 _newPosition;
+    private UnityEngine.Vector2 _newOffset;
+    private float _sinStep;
+    private bool _isRight;
+
     private void Start()
     {
+
+        YSpeed = 7.84f;
+        YAmplitude = 31.3f;
+        Speed = Random.Range(1.01f, 0.8f);
+        AmplitudeOffset = 0.5f;
+        Amplitude = 0.5f;
+
         _gameController = _seller._gameController;
 
         _cells = new List<Cell>();
@@ -42,131 +57,59 @@ public class BirdRout : MonoBehaviour
             }
         }
 
-        _tParam = 0f;
-        _coroutineAllowed = true;
-        _speedModifire = Random.Range(0.8f,1f);
-
         _scaleStep = 0f;
         _isCharging = true;
 
         routes = _cells[0].Birds[BirdIndex - 1].GetComponent<Bird>().routes;
 
         _mainCamera = Camera.main;
+
+        RectTransform g0 = routes[0].GetChild(0).GetComponent<RectTransform>();
+        RectTransform g1 = routes[0].GetChild(1).GetComponent<RectTransform>();
+
+        pointA = g0;
+        pointB = g1;
+
     }
 
     private void Update()
     {
-        if (_coroutineAllowed)
-        {
-            StartCoroutine(GoByTheRoute());
-            _coroutineAllowed = false;
-        }
+        float currentStep = _sinStep;
+        _sinStep = Mathf.Sin(Time.time * Speed) * Amplitude + AmplitudeOffset;
+        _newOffset = new UnityEngine.Vector2(0, Mathf.Sin(Time.time * YSpeed) * YAmplitude + YAmplitude);
+        _newPosition = UnityEngine.Vector3.Lerp(pointA.anchoredPosition + _newOffset, pointB.anchoredPosition + _newOffset, _sinStep);
 
-        if (_isCharging)
-        {
-            _scaleStep += Time.deltaTime * _scalingSpeed;
-        }
-        else
-        {
-            _scaleStep -= Time.deltaTime * _scalingSpeed;
-        }
+        bool currentDirecion = _isRight;
 
-        if (_scaleStep >= 1f)
+        if (currentStep > _sinStep)
         {
-            _isCharging = false;
-        }
-        else if (_scaleStep <= 0)
-        {
-            _isCharging = true;
-        }
-
-        if (_isMovingLeft)
-        {
-            foreach (var cell in _cells)
-            {
-                if (cell._rectTransform.IsVisibleFrom(_mainCamera) && cell.BirdCount >= BirdIndex)
-                {
-                    cell.Birds[BirdIndex - 1].GetComponent<Bird>()._rectTransform.localScale = new UnityEngine.Vector3(Mathf.Lerp(1f, 0.6f, _scaleStep), Mathf.Lerp(1f, 0.6f, _scaleStep), 1f);
-                }
-            }
+            _isRight = false;
         }
         else
         {
+            _isRight = true;
+        }
 
+        if (currentDirecion != _isRight)
+        {
             foreach (var cell in _cells)
             {
                 if (cell._rectTransform.IsVisibleFrom(_mainCamera) && cell.BirdCount >= BirdIndex)
                 {
-                    cell.Birds[BirdIndex - 1].GetComponent<Bird>()._rectTransform.localScale = new UnityEngine.Vector3(Mathf.Lerp(-1f, -0.6f, _scaleStep), Mathf.Lerp(1f, 0.6f, _scaleStep), 1f);
-                }
-            }
-        }
-    }
-
-    private IEnumerator GoByTheRoute()
-    {
-        int routeNumber = _routToGo;
-        _coroutineAllowed = false;
-
-        Transform g0 = routes[routeNumber].GetChild(0);
-        Transform g1 = routes[routeNumber].GetChild(1);
-        Transform g2 = routes[routeNumber].GetChild(2);
-        Transform g3 = routes[routeNumber].GetChild(3);
-
-        UnityEngine.Vector3 p0 = UnityEngine.Vector3.zero;
-        UnityEngine.Vector3 p1 = UnityEngine.Vector3.zero;
-        UnityEngine.Vector3 p2 = UnityEngine.Vector3.zero;
-        UnityEngine.Vector3 p3 = UnityEngine.Vector3.zero;
-
-        if (routeNumber == 0)
-        {
-            _isMovingLeft = false;
-        }
-        else
-        {
-            _isMovingLeft = true;
-        }
-
-        while (_tParam < 1)
-        {
-            p0 = g0.GetComponent<RectTransform>().anchoredPosition;
-            p1 = g1.GetComponent<RectTransform>().anchoredPosition;
-            p2 = g2.GetComponent<RectTransform>().anchoredPosition;
-            p3 = g3.GetComponent<RectTransform>().anchoredPosition;
-
-            _tParam += Time.deltaTime * _speedModifire;
-
-            _birdPosition = Mathf.Pow(1 - _tParam, 3) * p0 +
-                3 * Mathf.Pow(1 - _tParam, 2) * _tParam * p1 +
-                3 * (1 - _tParam) * Mathf.Pow(_tParam, 2) * p2 +
-                Mathf.Pow(_tParam, 3) * p3;
-
-            foreach (var cell in _cells)
-            {
-                if (cell._rectTransform.IsVisibleFrom(_mainCamera) && cell.BirdCount >= BirdIndex)
-                {
-                    cell.Birds[BirdIndex - 1].GetComponent<RectTransform>().anchoredPosition = _birdPosition;
-                }
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        _tParam = 0f;
-        _routToGo += 1;
-
-        if (_routToGo > routes.Length - 1)
-        {
-            _routToGo = 0;
-            foreach (var cell in _cells)
-            {
-                if (cell._rectTransform.IsVisibleFrom(_mainCamera) && cell.BirdCount >= BirdIndex)
-                {
-                    cell.Birds[BirdIndex - 1].GetComponent<Bird>().OpenPopUp();
+                    Bird bird = cell.Birds[BirdIndex - 1].GetComponent<Bird>();
+                    bird._rectTransform.localScale = new UnityEngine.Vector3(Mathf.Lerp( _isRight ? -1f : 1f , -0.6f, _scaleStep), Mathf.Lerp(1f, 0.6f, _scaleStep), 1f);
+                    if (_isRight)
+                        bird.OpenPopUp();
                 }
             }
         }
 
-        _coroutineAllowed = true;
+        foreach (var cell in _cells)
+        {
+            if (cell._rectTransform.IsVisibleFrom(_mainCamera) && cell.BirdCount >= BirdIndex)
+            { 
+                cell.Birds[BirdIndex - 1].GetComponent<RectTransform>().anchoredPosition = _newPosition;
+            }
+        }
     }
 }

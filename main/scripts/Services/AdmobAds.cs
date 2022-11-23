@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using System;
@@ -56,7 +54,7 @@ public class AdmobAds : Singletone<AdmobAds>
 
         _banner = new BannerView(_bannerId, AdSize.Banner, AdPosition.Bottom);
         _interstitialStandart = new InterstitialAd(_interstitialId);
-        
+
         _rewarded2XBooster.LoadAd(CreateAdRequest());
         _rewarded2XLvlUp.LoadAd(CreateAdRequest());
         _rewarded2XOfflineProfit.LoadAd(CreateAdRequest());

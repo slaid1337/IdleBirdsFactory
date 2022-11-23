@@ -5,8 +5,8 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-//using Firebase;
-//using Firebase.Analytics;
+using Firebase;
+using Firebase.Analytics;
 
 public class GameController : ControllerBase
 {
@@ -48,6 +48,7 @@ public class GameController : ControllerBase
     public GameObject BoosterCard;
     public GameObject OfflineProfitCard;
     public GameObject CollectEffect;
+    public LevelController _levelController;
 
     public GameObject MainCanvas;
 
@@ -62,7 +63,7 @@ public class GameController : ControllerBase
 
     public ServicesManager _servicesManager;
 
-    //private FirebaseApp app;
+    private FirebaseApp app;
 
     public AdmobAds _adsAdmob;
 
@@ -72,6 +73,8 @@ public class GameController : ControllerBase
     public BirdRout[] birdRoutes;
 
     [SerializeField] private GameObject _scroller;
+
+    //private YandexSDK _yandexSDK;
 
     public int Cash
     {
@@ -141,37 +144,38 @@ public class GameController : ControllerBase
         else
         {
             _tutorial._hand_unlock.SetActive(true);
+            _tutorial._hand_shop.SetActive(true);
             _tutorial._isTutor = true;
         }
 
-        //try
-        //{
-        //    FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-        //    {
-        //        var dependencyStatus = task.Result;
-        //        if (dependencyStatus == Firebase.DependencyStatus.Available)
-        //        {
-        //            // Create and hold a reference to your FirebaseApp,
-        //            // where app is a Firebase.FirebaseApp property of your application class.
-        //            app = FirebaseApp.DefaultInstance;
+        try
+        {
+            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+            {
+                var dependencyStatus = task.Result;
+                if (dependencyStatus == Firebase.DependencyStatus.Available)
+                {
+                    // Create and hold a reference to your FirebaseApp,
+                    // where app is a Firebase.FirebaseApp property of your application class.
+                    app = FirebaseApp.DefaultInstance;
 
-        //            // Set a flag here to indicate whether Firebase is ready to use by your app.
-        //            FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
+                    // Set a flag here to indicate whether Firebase is ready to use by your app.
+                    FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
 
-        //            Debug.Log("FireBase status - " + dependencyStatus);
-        //        }
-        //        else
-        //        {
-        //            UnityEngine.Debug.LogError(System.String.Format(
-        //              "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-        //            // Firebase Unity SDK is not safe to use here.
-        //        }
-        //    });
-        //}
-        //catch
-        //{
-        //    Debug.Log("FireBase is not loaded");
-        //}
+                    Debug.Log("FireBase status - " + dependencyStatus);
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError(System.String.Format(
+                      "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                    // Firebase Unity SDK is not safe to use here.
+                }
+            });
+        }
+        catch
+        {
+            Debug.Log("FireBase is not loaded");
+        }
 
         Debug.Log("--------------------1" + statsSave.CountOfGameStarts);
 
@@ -179,6 +183,8 @@ public class GameController : ControllerBase
 
     private void Start()
     {
+        //_yandexSDK = YandexSDK.Instance;
+
         StartCoroutine(ListToHighter());
     }
 
@@ -307,15 +313,18 @@ public class GameController : ControllerBase
             {
                 foreach (var tmp in tmpDict)
                 {
-
                     if (item.number == tmp)
                     {
-                        ActiveBooster = item;
+                        if (save.ActiveBooster[item.number] > DateTime.Now)
+                        {
+                            ActiveBooster = item;
+                            EndTimeEffectBosster = save.ActiveBooster[ActiveBooster.number];
+                        }
                     }
                 }
             }
 
-            EndTimeEffectBosster = save.ActiveBooster[ActiveBooster.number];   
+            
         }
 
         foreach (var item in BirdsObjects)
@@ -347,7 +356,7 @@ public class GameController : ControllerBase
 
             double totalSeconds = (DateTime.Now - save.DateOfQuit).TotalSeconds;
 
-            BigInteger money = _maxProfitPerHour / 3600 * new BigInteger(totalSeconds) / 1000;
+            BigInteger money = _maxProfitPerHour / new BigInteger(3600) * new BigInteger(totalSeconds) / new BigInteger(1000);
             Debug.Log(money);
             PassiveCard card = OfflineProfitCard.GetComponent<PassiveCard>();
 

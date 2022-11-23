@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,8 +22,8 @@ public class LevelCard : BasicCard
         _profit = profit / new System.Numerics.BigInteger(1000);
 
         _text1.text = _gameController.ShowMoney(_profit);
-        _text2.text = _gameController.ShowMoney(_profit * 2);
-        _text3.text = _gameController.ShowMoney(_profit * 3);
+        _text2.text = _gameController.ShowMoney(_profit * new System.Numerics.BigInteger(2));
+        _text3.text = _gameController.ShowMoney(_profit * new System.Numerics.BigInteger(3));
 
         _closeButton.onClick.AddListener(GetProfit);
 
@@ -52,10 +50,7 @@ public class LevelCard : BasicCard
             }
             _goldenButton.GetComponent<Button>().onClick.AddListener(GetProfit3X);
         }
-    }
 
-    private void OnEnable()
-    {
         _videoButton.onClick.AddListener(_ads.ShowRewarded2XLvlUp);
     }
 
@@ -80,10 +75,10 @@ public class LevelCard : BasicCard
         _closeButton.onClick.RemoveListener(GetProfit);
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
-        _gameController.AddMoneyWithoutEvent(_profit * 2);
+        _gameController.AddMoneyWithoutEvent(_profit * new System.Numerics.BigInteger(2));
         _gameController._FadeBackground.gameObject.SetActive(false);
         _gameController.CollectEffect.SetActive(true);
-        _gameController.CollectEffect.GetComponent<EffectController>().OpenItem(_gameController._egg, "+ " + _gameController.ShowMoney(_profit * 2));
+        _gameController.CollectEffect.GetComponent<EffectController>().OpenItem(_gameController._egg, "+ " + _gameController.ShowMoney(_profit * new System.Numerics.BigInteger(2)));
         gameObject.SetActive(false);
     }
 
@@ -92,10 +87,10 @@ public class LevelCard : BasicCard
         _closeButton.onClick.RemoveListener(GetProfit);
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
-        _gameController.AddMoneyWithoutEvent(_profit * 3);
+        _gameController.AddMoneyWithoutEvent(_profit * new System.Numerics.BigInteger(3));
         _gameController.SpendCash(10);
         _gameController.CollectEffect.SetActive(true);
-        _gameController.CollectEffect.GetComponent<EffectController>().OpenItem(_gameController._egg, "+ " + _gameController.ShowMoney(_profit * 3));
+        _gameController.CollectEffect.GetComponent<EffectController>().OpenItem(_gameController._egg, "+ " + _gameController.ShowMoney(_profit * new System.Numerics.BigInteger(3)));
         gameObject.SetActive(false);
     }
 

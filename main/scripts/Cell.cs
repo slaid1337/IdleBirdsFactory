@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,8 +5,8 @@ using System.Numerics;
 using System.Text;
 using UnityEngine.Events;
 using GooglePlayGames;
-//using Firebase;
-//using Firebase.Analytics;
+using Firebase;
+using Firebase.Analytics;
 
 public class Cell : ControllerBase
 {
@@ -106,7 +104,7 @@ public class Cell : ControllerBase
     {
         _stage = transform.GetSiblingIndex() + 1;
         _rectTransform = GetComponent<RectTransform>();
-        CellsSave[] saveObject = _gameController._saveController.CellsSave;
+        CellsSave[] saveObject = _gameController._saveController.LoadCells();
         
         CellsSave previousSaveCell = null;
         
@@ -131,8 +129,6 @@ public class Cell : ControllerBase
                 break;
             }
         }
-
-
 
         if (_stage == 1)
             countOfPreviousBirds = 1;
@@ -201,7 +197,7 @@ public class Cell : ControllerBase
                 _fullImage.SetActive(true);
             }
 
-            _moneyPerSecond = 12 * ((int)Mathf.Pow(10, _stage) / 10) * new BigInteger(_bonus);
+            _moneyPerSecond = new BigInteger(12) * (new BigInteger(Mathf.Pow(10, _stage)) / new BigInteger(10)) * new BigInteger(_bonus);
             ButtonEnabler(true);
 
             
@@ -251,7 +247,7 @@ public class Cell : ControllerBase
                 em.rateOverTime = _birdCount;
 
                 _unlockButton.GetComponent<Button>().onClick.RemoveListener(OpenUnlockCard);
-                _moneyPerSecond = 12 * ((int)Mathf.Pow(10, _stage) / 10) * new BigInteger(_bonus);
+                _moneyPerSecond = new BigInteger(12) * (new BigInteger(Mathf.Pow(10, _stage)) / new BigInteger(10)) * new BigInteger(_bonus);
                 ButtonEnabler(true);
 
                 _gameController.OnChangeMoney.AddListener(CheckOnUpgrade);
@@ -262,28 +258,61 @@ public class Cell : ControllerBase
             }
             else if (countOfPreviousBirds > 0)
             {
-                _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
-                ButtonEnabler(false);
-                AdmobAds ads = AdmobAds.Instance;
-                ads._cell = this;
+                if (!_isLock)
+                {
+                    if (Stage != 1)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            _lockObjects[i].SetActive(false);
+                        }
+                    }
 
-                if (_stage == 1)
+                    ButtonEnabler(true);
+                    _unlockButton.GetComponent<Button>().onClick.AddListener(OpenUnlockCard);
+
+                    _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
+
                     CheckOnUpgrade(_gameController.Money);
+                }
                 else
                 {
+                    AdmobAds ads = AdmobAds.Instance;
+                    ads._cell = this;
+                    ButtonEnabler(false);
                     _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+                    _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
                 }
             }
             else
             {
-                for (int i = 0; i < 3; i++)
+                if (!_isLock)
                 {
-                    _lockObjects[i].SetActive(false);
-                }
-                _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
+                    if (Stage != 1)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            _lockObjects[i].SetActive(false);
+                        }
+                    }
 
-                CheckOnUpgrade(_gameController.Money);
-                ButtonEnabler(false);
+                    ButtonEnabler(true);
+                    _unlockButton.GetComponent<Button>().onClick.AddListener(OpenUnlockCard);
+
+                    _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
+
+                    CheckOnUpgrade(_gameController.Money);
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        _lockObjects[i].SetActive(false);
+                    }
+                    _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
+                    _unlockButton.GetComponent<Button>().onClick.AddListener(OpenUnlockCard);
+                    ButtonEnabler(false);
+                }
             }
         }
         
@@ -332,7 +361,7 @@ public class Cell : ControllerBase
 
         _gameController._availableBirds.Remove(_birdObject);
 
-        _moneyPerSecond = 12 * ((int)Mathf.Pow(10, _stage) / 10) * new BigInteger(_bonus);
+        _moneyPerSecond = new BigInteger(12) * (new BigInteger(Mathf.Pow(10, _stage)) / new BigInteger(10)) * new BigInteger(_bonus);
 
         for (int i = 0; i < Birds.Length; i++)
         {
@@ -356,45 +385,45 @@ public class Cell : ControllerBase
 
         _isUnlocked = true;
 
-        //try
-        //{
-        //    FirebaseAnalytics.LogEvent("UnlockStage" + _stage);
-        //}
-        //catch
-        //{
+        try
+        {
+            FirebaseAnalytics.LogEvent("UnlockStage" + _stage);
+        }
+        catch
+        {
 
-        //}
+        }
 
-        //switch (_stage)
-        //{
-        //    case 1:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQAg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 2:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQAw", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 5:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQBA", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 10:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQBQ", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 15:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQBg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 20:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQBw", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 30:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQCA", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 50:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQCQ", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //    case 90:
-        //        Social.ReportProgress("CgkIyIa2qoYLEAIQCg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
-        //        break;
-        //}
+        switch (_stage)
+        {
+            case 1:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQAg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 2:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQAw", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 5:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQBA", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 10:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQBQ", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 15:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQBg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 20:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQBw", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 30:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQCA", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 50:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQCQ", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+            case 90:
+                Social.ReportProgress("CgkIyIa2qoYLEAIQCg", 100.0d, x => Debug.Log("status unlocking achievement 1 + " + x));
+                break;
+        }
 
         foreach (var item in _gameController.birdRoutes)
         {
@@ -420,7 +449,7 @@ public class Cell : ControllerBase
         CheckOnUpgrade(_gameController.Money);
         _gameController.UpgradeCard.GetComponent<UpgradeCard>().Refresh();
 
-        _moneyPerSecond = 12 * ((int)Mathf.Pow(10, _stage) / 10) * _birdCount * new BigInteger(_bonus);
+        _moneyPerSecond = new BigInteger(12) * (new BigInteger(Mathf.Pow(10, _stage)) / new BigInteger(10)) * new BigInteger(_bonus);
 
         SendOnUpgrade(1);
 
@@ -553,12 +582,12 @@ public class Cell : ControllerBase
 
     public void AddEventOnUnlockable(int lvl)
     {
-        AdmobAds ads = AdmobAds.Instance;
-        ads._cell = this;
-        _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+        //AdmobAds ads = AdmobAds.Instance;
+        //ads._cell = this;
+        //_lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
         _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
         _gameController.Cells[_stage - 2].OnUnlock.RemoveListener(AddEventOnUnlockable);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             _lockObjects[i].SetActive(true);
         }

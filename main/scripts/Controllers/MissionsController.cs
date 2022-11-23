@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -345,10 +344,6 @@ public class MissionsController : ControllerBase
                 item.currentValue += tap;
                 if (item.currentValue >= item.Goal)
                 {
-                    _missionCellControllers[item.CellIndex - 1].SetCollectable();
-
-                    _currentCompliteQuests++;
-
                     Cell[] cells = _gameController.Cells;
                     foreach (Cell cell in cells)
                     {
@@ -357,6 +352,11 @@ public class MissionsController : ControllerBase
                             bird.GetComponent<Bird>().OnTap.RemoveListener(AddTap);
                         }
                     }
+                    _missionCellControllers[item.CellIndex - 1].SetCollectable();
+
+                    _currentCompliteQuests++;
+
+                    
                     _plusIcon.SetActive(true);
                 }
                 break;

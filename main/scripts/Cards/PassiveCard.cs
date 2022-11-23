@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Numerics;
@@ -56,21 +54,21 @@ public class PassiveCard : BasicCard
             _goldenButton.GetComponent<Button>().onClick.AddListener(GetProfit3X);
         }
 
-        if (_ads._rewarded2XOfflineProfit.IsLoaded())
-        {
-            _videoButton.interactable = true;
-            _videoButton.onClick.AddListener(_ads.ShowRewarded2XOfflineProfit);
-        }
-        else
-        {
-            _videoButton.interactable = false;
-        }
+        //if (_ads._rewarded2XOfflineProfit.IsLoaded())
+        //{
+        //    _videoButton.interactable = true;
+        //    _videoButton.onClick.AddListener(_ads.ShowRewarded2XOfflineProfit);
+        //}
+        //else
+        //{
+        //    _videoButton.interactable = false;
+        //}
     }
 
     public void GetProfit()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
-        _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
+        //_videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit);
         _gameController.CollectEffect.SetActive(true);
@@ -81,7 +79,7 @@ public class PassiveCard : BasicCard
     public void GetProfit2X()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
-        _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
+        //_videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit * 2);
         _gameController.CollectEffect.SetActive(true);
@@ -93,7 +91,7 @@ public class PassiveCard : BasicCard
     public void GetProfit3X()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
-        _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
+        //_videoButton.onClick.RemoveListener(_ads.ShowRewarded2XOfflineProfit);
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit * 3);
         _gameController.SpendCash(15);

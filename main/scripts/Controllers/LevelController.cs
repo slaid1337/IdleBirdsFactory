@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Firebase;
-//using Firebase.Analytics;
+using Firebase;
+using Firebase.Analytics;
 
 public class LevelController : ControllerBase
 {
@@ -40,7 +38,7 @@ public class LevelController : ControllerBase
         _gameController.LevelCard.GetComponent<LevelCard>().OpenCard();
         _gameController.LevelCard.GetComponent<LevelCard>().SelfOpen(_gameController.MaxProfitPerHour);
 
-        //FirebaseAnalytics.LogEvent("lvl_UP");
+        FirebaseAnalytics.LogEvent("lvl_UP");
     }
 
     private void RefreshText()

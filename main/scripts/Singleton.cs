@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Singletone<T> : MonoBehaviour where T : MonoBehaviour 
 {
     static T m_instance;
+    [SerializeField] private bool _dontDestroy;
 
     public static T Instance
     {
@@ -29,6 +28,14 @@ public class Singletone<T> : MonoBehaviour where T : MonoBehaviour
         if (m_instance == null)
         {
             m_instance = this as T;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        if (_dontDestroy)
+        {
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
-using System.Numerics;
 using System;
 
 public class SaveController : MonoBehaviour
@@ -15,6 +13,7 @@ public class SaveController : MonoBehaviour
     private CellsSave[] _cellsSaver;
 
     private bool _isReset = false;
+    private bool _isSaveable;
 
     public CellsSave[] CellsSave
     {
@@ -36,6 +35,26 @@ public class SaveController : MonoBehaviour
 
         }
 
+        try
+        {
+            _gameController.OnAddLvl.AddListener(SaveOnLvlUp);
+        }
+        catch
+        {
+
+        }
+
+        _isSaveable = false;
+    }
+
+    private void Start()
+    {
+        _isSaveable = true;
+    }
+
+    private void SaveOnLvlUp(int number)
+    {
+        SaveAll();
     }
 
     public GameControllerSave LoadGameController()
@@ -160,18 +179,16 @@ public class SaveController : MonoBehaviour
     [ContextMenu("SaveGame")]
     private void OnApplicationPause()
     {
-        //string title = "Idle Birds Factory";
-        //string text = "You haven't been in for an hour";
+        if (_isSaveable)
+        {
+            SaveAll();
+        }
 
-
-        //PushManager.Instance.SendNotification(title, text, 60);
-        SaveAll();
-
-        //PushManager.Instance.SendNotification("Idle Birds Factory", "Enter and get a new Bird!", 30d);
-        //PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for hour", 60d);
-        //PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for 6 hour", 360d);
-        //PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for day", 1440d);
-        //PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for week", 10080d);
+        PushManager.Instance.SendNotification("Idle Birds Factory", "Enter and get a new Bird!", 30d);
+        PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for hour", 60d);
+        PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for 6 hour", 360d);
+        PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for day", 1440d);
+        PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for week", 10080d);
     }
 
     [ContextMenu("SaveGame1")]
@@ -209,10 +226,10 @@ public class SaveController : MonoBehaviour
         SaveOfflineDate(offlineSave);
         SaveStats(statisticSave);
 
-        //_gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
-        //_gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
-        //_gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
-        //_gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
+        _gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
+        _gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
+        _gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
+        _gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
 
         _isReset = true;
 
@@ -262,10 +279,10 @@ public class SaveController : MonoBehaviour
             SaveOfflineDate(offlineSave);
             SaveStats(statisticSave);
 
-            //_gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
-            //_gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
-            //_gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
-            //_gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
+            _gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
+            _gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
+            _gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
+            _gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
             Debug.Log("Save");
         }
     }
