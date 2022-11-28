@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -66,6 +64,7 @@ public class UpgradeCard : BasicCard
 
     public void Refresh()
     {
+        CheckOnUpgradeCard(_gameController.Money);
         _birdImage.sprite = _cell._BirdObject.Image;
         _birdCountText.text = _cell.BirdCount.ToString();
         _currentProfitText.text = _cell.ShowMoney(_cell.MoneyPerSecond * _cell.BirdCount);
@@ -74,10 +73,5 @@ public class UpgradeCard : BasicCard
 
         _progressStep = Mathf.Min((float)Normalize(_cell.BirdCount, 0, 18, 0, 1), 1f);
         _progressBar.GetComponent<RectTransform>().sizeDelta = Vector2.Lerp(new Vector2(0, _startSizeBar.y), _startSizeBar, _progressStep);
-    }
-
-    public void OnMaxLvl()
-    {
-        //_gameController.CollectEffect.GetComponent<EffectController>().OpenItem();
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class MissionsController : ControllerBase
 {
@@ -174,7 +173,7 @@ public class MissionsController : ControllerBase
             case EnumMissions.PlayMinutes:
                 _missionObjects[index].Goal = 15 * Mathf.Max(1, lvl % 10);
                 _missionObjects[index].Skippable = true;
-
+                _isTimeSending = true;
                 StartCoroutine(AddTime());
                 break;
 

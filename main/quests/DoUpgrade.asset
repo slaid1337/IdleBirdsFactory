@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description1: Do
   Description2: upgrades
-  Description: Do 6 upgrades
+  Description: Do 10 upgrades
   Missiontype: 3
   Profit: 3
-  Goal: 6
+  Goal: 10
   currentValue: 0
   Skippable: 0
   CellIndex: 0
-  PrivateGoal: 6
+  PrivateGoal: 10

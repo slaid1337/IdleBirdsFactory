@@ -184,11 +184,13 @@ public class SaveController : MonoBehaviour
             SaveAll();
         }
 
+#if UNITY_ANDROID
         PushManager.Instance.SendNotification("Idle Birds Factory", "Enter and get a new Bird!", 30d);
         PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for hour", 60d);
         PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for 6 hour", 360d);
         PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for day", 1440d);
         PushManager.Instance.SendNotification("Idle Birds Factory", "you haven't played the game for week", 10080d);
+#endif
     }
 
     [ContextMenu("SaveGame1")]
@@ -226,10 +228,12 @@ public class SaveController : MonoBehaviour
         SaveOfflineDate(offlineSave);
         SaveStats(statisticSave);
 
+#if UNITY_ANDROID
         _gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
         _gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
         _gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
         _gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
+#endif
 
         _isReset = true;
 
@@ -279,10 +283,13 @@ public class SaveController : MonoBehaviour
             SaveOfflineDate(offlineSave);
             SaveStats(statisticSave);
 
+#if UNITY_ANDROID
             _gameController._servicesManager.SaveToCloud(SaverType.GameController, "GameControllerSave");
             _gameController._servicesManager.SaveToCloud(SaverType.Cells, "CellsSave");
             _gameController._servicesManager.SaveToCloud(SaverType.Seller, "SellerSave");
             _gameController._servicesManager.SaveToCloud(SaverType.Stats, "StatsSave");
+#endif
+
             Debug.Log("Save");
         }
     }
@@ -294,6 +301,7 @@ public class SaveController : MonoBehaviour
         return saveDirectory;
     }
 
+#if UNITY_ANDROID
     public void SaveAllFromCloud(GameControllerSave gameControllerSave, CellsSave[] cellsSave, SellerSave sellerSave, StatisticSave statisticSave, ServiceSave serviceSave)
     {
 
@@ -306,6 +314,7 @@ public class SaveController : MonoBehaviour
         SaveStats(statisticSave);
         SaveService(serviceSave);
     }
+#endif
 }
 
 [Serializable]

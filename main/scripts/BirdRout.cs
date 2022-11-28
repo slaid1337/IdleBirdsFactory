@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Numerics;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class BirdRout : MonoBehaviour
 {

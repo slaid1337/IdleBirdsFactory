@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description1: Tap birds
   Description2: times
-  Description: Tap birds 52 times
+  Description: Tap birds 162 times
   Missiontype: 1
   Profit: 10
-  Goal: 52
+  Goal: 162
   currentValue: 0
   Skippable: 1
   CellIndex: 0
-  PrivateGoal: 52
+  PrivateGoal: 162

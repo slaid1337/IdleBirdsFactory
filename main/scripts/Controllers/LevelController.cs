@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase;
+
+#if UNITY_ANDROID
 using Firebase.Analytics;
+#endif
 
 public class LevelController : ControllerBase
 {
@@ -20,6 +22,7 @@ public class LevelController : ControllerBase
         _lvl = _gameController.Lvl;
         _gameController.OnAddMoney.AddListener(CheckOnUpgrade);
         CheckOnUpgrade(0);
+        Debug.Log(_costToUp);
     }
 
     public void LevelUp()
@@ -38,7 +41,9 @@ public class LevelController : ControllerBase
         _gameController.LevelCard.GetComponent<LevelCard>().OpenCard();
         _gameController.LevelCard.GetComponent<LevelCard>().SelfOpen(_gameController.MaxProfitPerHour);
 
+#if UNITY_ANDROID
         FirebaseAnalytics.LogEvent("lvl_UP");
+#endif
     }
 
     private void RefreshText()
@@ -48,7 +53,7 @@ public class LevelController : ControllerBase
     
     private void CheckOnUpgrade(System.Numerics.BigInteger money)
     {
-        _costToUp = new System.Numerics.BigInteger(56 * (Mathf.Pow(2, _lvl - 1)));
+        _costToUp = new System.Numerics.BigInteger(25 * (Mathf.Pow(2, _lvl / 1.8f - 1)));
         _money += money;
         float barIndex = Mathf.Min((float)Normalize((double)_money, 0, (double)_costToUp, 0, 1), 1f);
         _progressBar.GetComponent<RectTransform>().sizeDelta = Vector2.Lerp(new Vector2(0, _startSizeBar.y), _startSizeBar, barIndex);

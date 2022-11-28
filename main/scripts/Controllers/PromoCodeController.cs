@@ -11,14 +11,19 @@ public class PromoCodeController : MonoBehaviour
         string code = _codeText.text;
         string codeForGold = "xx0k01xf";
         string codeForLvlUp = "xt0k20hl";
+        string codeForReset = "2reset2all2";
 
         if (code == codeForGold)
         {
             _gameController.AddCash(5000);
         }
-        if (code == codeForLvlUp)
+        else if (code == codeForLvlUp)
         {
             _gameController._levelController.LevelUp(); 
+        }
+        else if (code == codeForReset)
+        {
+            _gameController._saveController.ResetAllSaves();
         }
     }
 }

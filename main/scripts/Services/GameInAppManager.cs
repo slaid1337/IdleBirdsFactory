@@ -5,6 +5,8 @@ public class GameInAppManager : Singletone<GameInAppManager>
     [SerializeField] private GameController _gameController;
     [SerializeField] private BoosterObject _50xBooster;
 
+#if UNITY_ANDROID
+
     public void BuySpecialOffer()
     {
         _gameController.AddCash(2800);
@@ -43,4 +45,5 @@ public class GameInAppManager : Singletone<GameInAppManager>
     {
         _gameController.AddCash(13000);
     }
+#endif
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LevelCard : BasicCard
 {
     [SerializeField] private Text _text1;
@@ -14,11 +13,15 @@ public class LevelCard : BasicCard
 
     private System.Numerics.BigInteger _profit;
 
+#if UNITY_ANDROID
     private AdmobAds _ads = null;
+#endif
 
     public void SelfOpen(System.Numerics.BigInteger profit)
     {
+#if UNITY_ANDROID
         _ads = AdmobAds.Instance;
+#endif
         _profit = profit / new System.Numerics.BigInteger(1000);
 
         _text1.text = _gameController.ShowMoney(_profit);
@@ -51,18 +54,24 @@ public class LevelCard : BasicCard
             _goldenButton.GetComponent<Button>().onClick.AddListener(GetProfit3X);
         }
 
+#if UNITY_ANDROID
         _videoButton.onClick.AddListener(_ads.ShowRewarded2XLvlUp);
+#endif
     }
 
     private void OnDisable()
     {
+#if UNITY_ANDROID
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
+#endif
     }
 
     public void GetProfit()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
+#if UNITY_ANDROID
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
+#endif
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit);
         _gameController.CollectEffect.SetActive(true);
@@ -73,7 +82,9 @@ public class LevelCard : BasicCard
     public void GetProfit2X()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
+#if UNITY_ANDROID
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
+#endif
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit * new System.Numerics.BigInteger(2));
         _gameController._FadeBackground.gameObject.SetActive(false);
@@ -85,7 +96,9 @@ public class LevelCard : BasicCard
     public void GetProfit3X()
     {
         _closeButton.onClick.RemoveListener(GetProfit);
+#if UNITY_ANDROID
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
+#endif
         _goldenButton.GetComponent<Button>().onClick.RemoveListener(GetProfit3X);
         _gameController.AddMoneyWithoutEvent(_profit * new System.Numerics.BigInteger(3));
         _gameController.SpendCash(10);

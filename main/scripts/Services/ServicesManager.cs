@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
+
+#if UNITY_ANDROID
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
-using Newtonsoft.Json;
-using System;
-using UnityEngine.SceneManagement;
+#endif
 
 public class ServicesManager : MonoBehaviour
 {
-    [SerializeField] private BuildMarketSettings _serviceSettings;
     [SerializeField] private GameController _gameController;
 
     public GameControllerSave _gameControllerSave;
@@ -18,8 +18,11 @@ public class ServicesManager : MonoBehaviour
     public StatisticSave _statisticSave;
     public ServiceSave _serviceSave;
 
+
+
     public SignInStatus _statutsOfLoginning = SignInStatus.NotAuthenticated;
 
+#if UNITY_ANDROID
     public int _countOfLoading;
 
     public string DataTmp;
@@ -139,24 +142,22 @@ public class ServicesManager : MonoBehaviour
 
     public void SaveToCloud(SaverType saverType, string name)
     {
-        Debug.Log("123");
+        Debug.Log("try saving cloud");
         if (IsLogged())
         {
-            Debug.Log("1233333333333");
+            Debug.Log("start saving");
             ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
             Debug.Log(savedGameClient);
             savedGameClient.OpenWithAutomaticConflictResolution(name, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime,
                 (status, meta) =>
                 {
-                    Debug.Log("111111111111");
+                    Debug.Log("start loading to cloud");
                     byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(GetDataToCloud(saverType));
                     SavedGameMetadataUpdate update = new SavedGameMetadataUpdate.Builder().Build();
                     PlayGamesPlatform.Instance.SavedGame.CommitUpdate(meta, update, data, (status, meta) => Debug.Log("succes load to cloud"));
-                    Debug.Log("55463423523513241");
                 });
-            Debug.Log("1222222222223");
         }
-        Debug.Log("321 " + IsLogged());
+        Debug.Log("saving to cloud ends with --- " + IsLogged());
     }
 
     public string GetDataToCloud(SaverType saverType)
@@ -189,6 +190,8 @@ public class ServicesManager : MonoBehaviour
         Debug.Log("12312312312312312312213 " + data);
         return data;
     }
+
+#endif
 }
 public enum SaverType
 {

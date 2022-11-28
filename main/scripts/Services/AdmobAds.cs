@@ -1,11 +1,14 @@
 using UnityEngine;
-using GoogleMobileAds.Api;
 using System;
+
+#if UNITY_ANDROID
+using GoogleMobileAds.Api;
+#endif
 
 public class AdmobAds : Singletone<AdmobAds>
 {
     [SerializeField] private GameController _gameController;
-
+#if UNITY_ANDROID
     public RewardedAd _rewarded2XBooster;
     public RewardedAd _rewarded2XOfflineProfit;
     public RewardedAd _rewarded2XLvlUp;
@@ -191,4 +194,5 @@ public class AdmobAds : Singletone<AdmobAds>
         return new AdRequest.Builder()
             .Build();
     }
+#endif
 }

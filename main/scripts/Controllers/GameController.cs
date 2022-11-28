@@ -18,7 +18,7 @@ public class GameController : ControllerBase
 
     public BirdObject[] BirdsObjects;
     public List<BirdObject> _availableBirds;
-
+    
     [SerializeField] private int _lvl;
 
     [SerializeField] private GameObject _cellContainer;
@@ -63,9 +63,13 @@ public class GameController : ControllerBase
 
     public ServicesManager _servicesManager;
 
+#if UNITY_ANDROID
+
     private FirebaseApp app;
 
     public AdmobAds _adsAdmob;
+
+#endif
 
     [SerializeField] private GameObject _bottomUI;
     private bool _IsAdShowable = true;
@@ -122,6 +126,18 @@ public class GameController : ControllerBase
 
     private void Awake()
     {
+        #if UNITY_EDITOR
+                Debug.Log("Unity Editor");
+        #endif
+
+        #if UNITY_ANDROID
+                Debug.Log("Unity android");
+        #endif
+
+        #if UNITY_WEBGL
+                Debug.Log("Unity webgl");
+        #endif
+
         Application.targetFrameRate = 60;
 
         _availableBirds = new List<BirdObject>();
@@ -148,6 +164,7 @@ public class GameController : ControllerBase
             _tutorial._isTutor = true;
         }
 
+#if UNITY_ANDROID
         try
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -176,6 +193,7 @@ public class GameController : ControllerBase
         {
             Debug.Log("FireBase is not loaded");
         }
+#endif
 
         Debug.Log("--------------------1" + statsSave.CountOfGameStarts);
 

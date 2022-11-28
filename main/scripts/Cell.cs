@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Numerics;
-using System.Text;
 using UnityEngine.Events;
-using GooglePlayGames;
-using Firebase;
+
+#if UNITY_ANDROID
 using Firebase.Analytics;
+#endif
 
 public class Cell : ControllerBase
 {
@@ -277,11 +277,14 @@ public class Cell : ControllerBase
                 }
                 else
                 {
+#if UNITY_ANDROID
                     AdmobAds ads = AdmobAds.Instance;
-                    ads._cell = this;
-                    ButtonEnabler(false);
                     _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+                    ads._cell = this;
+#endif
+                    ButtonEnabler(false);
                     _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
+                    _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
                 }
             }
             else
@@ -309,6 +312,7 @@ public class Cell : ControllerBase
                     {
                         _lockObjects[i].SetActive(false);
                     }
+                    _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
                     _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
                     _unlockButton.GetComponent<Button>().onClick.AddListener(OpenUnlockCard);
                     ButtonEnabler(false);
@@ -374,6 +378,7 @@ public class Cell : ControllerBase
 
         RefreshInfo();
         CheckOnUpgrade(_gameController.Money);
+        _gameController.OnChangeMoney.AddListener(CheckOnUpgrade);
         _gameController._FadeBackground.gameObject.SetActive(true);
         _gameController._FadeBackground.Open();
         _gameController.CollectEffect.SetActive(true);
@@ -384,6 +389,8 @@ public class Cell : ControllerBase
         em.rateOverTime = _birdCount;
 
         _isUnlocked = true;
+
+#if UNITY_ANDROID
 
         try
         {
@@ -425,15 +432,19 @@ public class Cell : ControllerBase
                 break;
         }
 
+        if (_gameController.IsAdShowable)
+        {
+            AdmobAds.Instance.ShowInterstitial();
+        }
+
+#endif
+
         foreach (var item in _gameController.birdRoutes)
         {
             item._cells.Add(this);
         }
 
-        if (_gameController.IsAdShowable)
-        {
-            AdmobAds.Instance.ShowInterstitial();
-        }
+        
     }
 
     public void Upgrade()
@@ -565,13 +576,13 @@ public class Cell : ControllerBase
         {
             BreakLock();
         }
-        else if (_isLock)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _lockObjects[i].SetActive(true);
-            }
-        }
+        //else if (_isLock)
+        //{
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        _lockObjects[i].SetActive(true);
+        //    }
+        //}
     }
 
     public void SetUnlocable(int lvl)
@@ -582,9 +593,12 @@ public class Cell : ControllerBase
 
     public void AddEventOnUnlockable(int lvl)
     {
-        //AdmobAds ads = AdmobAds.Instance;
-        //ads._cell = this;
-        //_lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+#if UNITY_ANDROID
+        AdmobAds ads = AdmobAds.Instance;
+        ads._cell = this;
+        _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+#endif
+
         _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
         _gameController.Cells[_stage - 2].OnUnlock.RemoveListener(AddEventOnUnlockable);
         for (int i = 0; i < 4; i++)

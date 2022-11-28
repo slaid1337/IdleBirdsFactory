@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Notifications.Android;
-using UnityEngine;
 
 public class PushManager : Singletone<PushManager>
 {
-
+#if UNITY_ANDROID
     private AndroidNotificationChannel _channel;
 
     void Start()
@@ -18,11 +15,8 @@ public class PushManager : Singletone<PushManager>
             Description = "Generic notifications",
         };
         AndroidNotificationCenter.RegisterNotificationChannel(_channel);
-    }
-
-    private void OnEnable()
-    {
-        AndroidNotificationCenter.CancelAllNotifications();
+        
+        AndroidNotificationCenter.CancelAllScheduledNotifications();
     }
 
     public void SendNotification(string title, string text, double pushTimeMinutes)
@@ -34,5 +28,5 @@ public class PushManager : Singletone<PushManager>
 
         AndroidNotificationCenter.SendNotification(notification, "main_channel");
     }
-
+#endif
 }

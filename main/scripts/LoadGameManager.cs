@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using GooglePlayGames;
+
+#if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using Firebase;
 using Firebase.Analytics;
-
+#endif
 
 public class LoadGameManager : MonoBehaviour
 {
@@ -15,8 +16,10 @@ public class LoadGameManager : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_ANDROID
         _servicesManager.Initialize();
         _servicesManager.LogInning();
+#endif
 
         //try
         //{
@@ -27,10 +30,11 @@ public class LoadGameManager : MonoBehaviour
         //{
 
         //}
-        
+
 
         StartCoroutine(UntilLogin());
 
+#if UNITY_ANDROID
         try
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -42,23 +46,28 @@ public class LoadGameManager : MonoBehaviour
         {
             Debug.Log("Firebase not loaded");
         }
-
+#endif
     }
 
     private IEnumerator UntilLogin()
     {
+#if UNITY_ANDROID
         yield return new WaitUntil(() => _servicesManager._statutsOfLoginning != SignInStatus.NotAuthenticated && _servicesManager._statutsOfLoginning != SignInStatus.AlreadyInProgress);
-        //yield return new WaitForSeconds(0.1f);
-        Debug.Log("1111111111111111");
+#else
+        yield return new WaitForSeconds(0.1f);
+#endif
+        Debug.Log("try loading");
         if (_servicesManager._statutsOfLoginning == SignInStatus.Success)
         {
-            Debug.Log("222222222222222");
+#if UNITY_ANDROID
+            Debug.Log("start load cloud");
             yield return new WaitUntil(() => _servicesManager.IsLogged() == true);
 
             if (_servicesManager.IsLogged())
             {
                 StartCoroutine(LoadSceneWhenLoad());
             }
+#endif
         }
         else
         {
@@ -67,6 +76,7 @@ public class LoadGameManager : MonoBehaviour
         }
     }
 
+#if UNITY_ANDROID
     private IEnumerator LoadSceneWhenLoad()
     {
         GameControllerSave self = _saveController.LoadGameController();
@@ -102,4 +112,5 @@ public class LoadGameManager : MonoBehaviour
 
         SceneManager.LoadScene(1);
     }
+#endif
 }
