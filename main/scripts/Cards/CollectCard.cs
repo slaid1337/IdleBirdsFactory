@@ -56,6 +56,8 @@ public class CollectCard : BasicCard
         _cell = cell;
 
         SpinCard spinCard = _gameController.SpinCard.GetComponent<SpinCard>();
+
+#if UNITY_ANDROID
         if (_ads._rewardedRespinRoll.IsLoaded())
         {
             _respinBtn.interactable = true;
@@ -66,12 +68,24 @@ public class CollectCard : BasicCard
             _respinBtn.interactable = false;
             _respinBtn.onClick.RemoveListener(_ads.ShowRewardedRespinRoll);
         }
+#endif
+
+#if UNITY_WEBGL
+        _respinBtn.interactable = true;
+        _respinBtn.onClick.AddListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet += Respin;
+#endif
     }
 
     public void Collect()
     {
         _cell.CollectBird();
         gameObject.SetActive(false);
+
+#if UNITY_WEBGL
+        _respinBtn.onClick.RemoveListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet -= Respin;
+#endif
     }
 
     public void Respin()
@@ -79,7 +93,16 @@ public class CollectCard : BasicCard
         _gameController.SpinCard.SetActive(true);
         _gameController.SpinCard.GetComponent<SpinCard>().OpenCard();
         _gameController.SpinCard.GetComponent<SpinCard>().SelfOpen();
+
+#if UNITY_ANDROID
         _respinBtn.onClick.RemoveListener(_ads.ShowRewardedRespinRoll);
+#endif
+
+#if UNITY_WEBGL
+        _respinBtn.onClick.RemoveListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet -= Respin;
+#endif
+
         gameObject.SetActive(false);
     }
 }

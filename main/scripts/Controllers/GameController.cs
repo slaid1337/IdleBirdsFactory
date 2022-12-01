@@ -5,8 +5,11 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+#if UNITY_ANDROID
 using Firebase;
 using Firebase.Analytics;
+#endif
 
 public class GameController : ControllerBase
 {
@@ -78,7 +81,9 @@ public class GameController : ControllerBase
 
     [SerializeField] private GameObject _scroller;
 
-    //private YandexSDK _yandexSDK;
+#if UNITY_WEBGL
+    private YandexSDK _yandexSDK;
+#endif
 
     public int Cash
     {
@@ -126,17 +131,17 @@ public class GameController : ControllerBase
 
     private void Awake()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.Log("Unity Editor");
-        #endif
+#endif
 
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
                 Debug.Log("Unity android");
-        #endif
+#endif
 
-        #if UNITY_WEBGL
+#if UNITY_WEBGL
                 Debug.Log("Unity webgl");
-        #endif
+#endif
 
         Application.targetFrameRate = 60;
 
@@ -201,9 +206,12 @@ public class GameController : ControllerBase
 
     private void Start()
     {
-        //_yandexSDK = YandexSDK.Instance;
-
         StartCoroutine(ListToHighter());
+
+#if UNITY_WEBGL
+        _yandexSDK = YandexSDK.Instance;
+        OnBannerShow();
+#endif
     }
 
     private void Update()

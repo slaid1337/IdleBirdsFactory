@@ -40,6 +40,10 @@ public class Cell : ControllerBase
 
     public RectTransform _rectTransform;
 
+#if UNITY_WEBGL
+    private YandexSDK _yandexSDK;
+#endif
+
     public bool IsUnlocked
     {
         get
@@ -102,6 +106,7 @@ public class Cell : ControllerBase
 
     private void Start()
     {
+        _yandexSDK = YandexSDK.Instance;
         _stage = transform.GetSiblingIndex() + 1;
         _rectTransform = GetComponent<RectTransform>();
         CellsSave[] saveObject = _gameController._saveController.LoadCells();
@@ -282,6 +287,12 @@ public class Cell : ControllerBase
                     _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
                     ads._cell = this;
 #endif
+
+#if UNITY_WEBGL
+                    _lockObjects[0].GetComponent<Button>().onClick.AddListener(_yandexSDK.ShowRewardAdvertismentUnlock);
+                    _yandexSDK.RewardGetUnlockStage += BreakLock;
+#endif
+
                     ButtonEnabler(false);
                     _gameController.Cells[_stage - 2].OnUnlock.AddListener(AddEventOnUnlockable);
                     _gameController.OnAddLvl.AddListener(CheckOnUnlocable);
@@ -444,7 +455,9 @@ public class Cell : ControllerBase
             item._cells.Add(this);
         }
 
-        
+#if UNITY_WEBGL
+        _yandexSDK.ShowCommonAdvertisment();
+#endif
     }
 
     public void Upgrade()
@@ -597,6 +610,11 @@ public class Cell : ControllerBase
         AdmobAds ads = AdmobAds.Instance;
         ads._cell = this;
         _lockObjects[0].GetComponent<Button>().onClick.AddListener(ads.ShowRewardedUnlockStage);
+#endif
+
+#if UNITY_WEBGL
+        _lockObjects[0].GetComponent<Button>().onClick.AddListener(_yandexSDK.ShowRewardAdvertismentUnlock);
+        _yandexSDK.RewardGetUnlockStage += BreakLock;
 #endif
 
         _gameController.OnAddLvl.AddListener(CheckOnUnlocable);

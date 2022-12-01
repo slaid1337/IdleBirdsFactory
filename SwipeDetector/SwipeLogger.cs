@@ -11,10 +11,12 @@ public class SwipeLogger : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_ANDROID
         if (_tutorial._isTutor)
         {
             _tutorial._hand_swipe.SetActive(true);
         }
+#endif
     }
 
     private void SwipeDetector_OnSwipe(SwipeData data)

@@ -57,12 +57,22 @@ public class LevelCard : BasicCard
 #if UNITY_ANDROID
         _videoButton.onClick.AddListener(_ads.ShowRewarded2XLvlUp);
 #endif
+
+#if UNITY_WEBGL
+        _videoButton.onClick.AddListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet += GetProfit2X;
+#endif
     }
 
     private void OnDisable()
     {
 #if UNITY_ANDROID
         _videoButton.onClick.RemoveListener(_ads.ShowRewarded2XLvlUp);
+#endif
+
+#if UNITY_WEBGL
+        _videoButton.onClick.RemoveListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet -= GetProfit2X;
 #endif
     }
 

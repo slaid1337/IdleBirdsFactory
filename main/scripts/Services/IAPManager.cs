@@ -197,6 +197,7 @@ public class IAPManager : Singletone<IAPManager> , IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
+#if UNITY_ANDROID
         // A consumable product has been purchased by this user.
         if (String.Equals(args.purchasedProduct.definition.id, SpecialOffer, StringComparison.Ordinal))
         {
@@ -237,6 +238,7 @@ public class IAPManager : Singletone<IAPManager> , IStoreListener
         {
             Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
         }
+#endif
         return PurchaseProcessingResult.Complete;
     }
 

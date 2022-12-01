@@ -18,7 +18,9 @@ public class MissionCellController : MonoBehaviour
     private int _goal;
     private int _currentValue;
 
+#if UNITY_ANDROID
     private AdmobAds _ads = null;
+#endif
 
     public void Refresh()
     {
@@ -81,8 +83,10 @@ public class MissionCellController : MonoBehaviour
 
     public void SetCellToAds()
     {
+#if UNITY_ANDROID
         _ads = AdmobAds.Instance;
         _ads._missionCellController = this;
+#endif
     }
 
     double Normalize(double val, double valmin, double valmax, double min, double max)

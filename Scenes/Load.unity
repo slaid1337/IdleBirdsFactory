@@ -394,7 +394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &338367630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 338367629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50d117b286dc4efcac527fbd7550311, type: 3}
+  m_Script: {fileID: 11500000, guid: cfad71d2aecd944708bdb2eda70357a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroy: 1
@@ -560,7 +560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01967ee261a9f4037af4d3cf1af56ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serviceSettings: {fileID: 11400000, guid: 694c9160425cf4c6f94cca2f79db6644, type: 2}
   _gameController: {fileID: 0}
   _gameControllerSave:
     Money: 
@@ -575,9 +574,6 @@ MonoBehaviour:
     CountOfGameStarts: 0
   _serviceSave:
     AdBlock: 0
-  _statutsOfLoginning: 8
-  _countOfLoading: 0
-  DataTmp: 
 --- !u!4 &1013517548
 Transform:
   m_ObjectHideFlags: 0

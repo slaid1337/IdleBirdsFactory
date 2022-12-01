@@ -1,4 +1,6 @@
+#if UNITY_ANDROID
 using Unity.Notifications.Android;
+#endif
 
 public class PushManager : Singletone<PushManager>
 {

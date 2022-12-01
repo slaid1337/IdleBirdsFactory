@@ -19,10 +19,10 @@ public class ServicesManager : MonoBehaviour
     public ServiceSave _serviceSave;
 
 
-
+#if UNITY_ANDROID
     public SignInStatus _statutsOfLoginning = SignInStatus.NotAuthenticated;
 
-#if UNITY_ANDROID
+
     public int _countOfLoading;
 
     public string DataTmp;

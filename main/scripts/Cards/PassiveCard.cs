@@ -70,6 +70,19 @@ public class PassiveCard : BasicCard
             _videoButton.interactable = false;
         }
 #endif
+
+#if UNITY_WEBGL
+        _videoButton.onClick.AddListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet += GetProfit2X;
+#endif
+    }
+
+    private void OnDisable()
+    {
+#if UNITY_WEBGL
+        _videoButton.onClick.RemoveListener(YandexSDK.Instance.ShowRewardAdvertisment);
+        YandexSDK.Instance.RewardGet -= GetProfit2X;
+#endif
     }
 
     public void GetProfit()

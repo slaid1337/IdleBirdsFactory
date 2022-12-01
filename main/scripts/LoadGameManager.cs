@@ -56,10 +56,12 @@ public class LoadGameManager : MonoBehaviour
 #else
         yield return new WaitForSeconds(0.1f);
 #endif
+
+#if UNITY_ANDROID
         Debug.Log("try loading");
         if (_servicesManager._statutsOfLoginning == SignInStatus.Success)
         {
-#if UNITY_ANDROID
+
             Debug.Log("start load cloud");
             yield return new WaitUntil(() => _servicesManager.IsLogged() == true);
 
@@ -67,13 +69,17 @@ public class LoadGameManager : MonoBehaviour
             {
                 StartCoroutine(LoadSceneWhenLoad());
             }
-#endif
+
         }
         else
         {
             SceneManager.LoadScene(1);
             Debug.Log("--------Load_local_save--------");
         }
+#endif
+
+        SceneManager.LoadScene(1);
+        Debug.Log("--------Load_local_save--------");
     }
 
 #if UNITY_ANDROID
