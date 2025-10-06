@@ -1,0 +1,25 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Visual Studio
+.vs/
+*.csproj
+*.user
+*.sln
+*.suo
+*.tmp
+*.userprefs
+*.unityproj
+*.DS_Store
+
+# VS Code
+.vscode/
+
+# Build folders
+[Bb]in/
+[Oo]bj/
