@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Seller : ControllerBase
 {
+    private const float SELLER_BASE_INCOME = 5f;           // Было 14
+    private const float SELLER_INCOME_GROWTH_FACTOR = 1.4f; // Было 1.6f
+    private const float SELLER_BASE_UPGRADE_COST = 20f;    // Было 60  
+    private const float SELLER_UPGRADE_GROWTH_FACTOR = 1.5f; // Было 1.8f
+
     [SerializeField] private Text _moneyText;
     [SerializeField] private int _lvl;
     [SerializeField] private int _sellPerTime;
@@ -53,8 +58,8 @@ public class Seller : ControllerBase
 
         SwipeDetector.OnSwipe += BoostSpeedBySwipe;
 
-        _sellPerTime = (int)(14 * Mathf.Pow(1.6f, _lvl));
-        _upgradeCost = (int)(60 * Mathf.Pow(1.8f, _lvl));
+        _sellPerTime = (int)(SELLER_BASE_INCOME * Mathf.Pow(SELLER_INCOME_GROWTH_FACTOR, _lvl));
+        _upgradeCost = (int)(SELLER_BASE_UPGRADE_COST * Mathf.Pow(SELLER_UPGRADE_GROWTH_FACTOR, _lvl));
 
         _gameController.OnChangeMoney.AddListener(CheckOnUpgrade);
         CheckOnUpgrade(_gameController.Money);
@@ -72,8 +77,8 @@ public class Seller : ControllerBase
 
     public void Upgrade()
     {
-        _sellPerTime = (int)(14 * Mathf.Pow(1.6f, _lvl));
-        _upgradeCost = (int)(60 * Mathf.Pow(1.8f, _lvl));
+        _sellPerTime = (int)(SELLER_BASE_INCOME * Mathf.Pow(SELLER_INCOME_GROWTH_FACTOR, _lvl));
+        _upgradeCost = (int)(SELLER_BASE_UPGRADE_COST * Mathf.Pow(SELLER_UPGRADE_GROWTH_FACTOR, _lvl));
 
         _lvl += 1;
 
@@ -98,8 +103,8 @@ public class Seller : ControllerBase
 
     private void CheckOnUpgrade(int money)
     {
-        _sellPerTime = (int)(14 * Mathf.Pow(1.6f, _lvl));
-        _upgradeCost = (int)(60 * Mathf.Pow(1.8f, _lvl));
+        _sellPerTime = (int)(SELLER_BASE_INCOME * Mathf.Pow(SELLER_INCOME_GROWTH_FACTOR, _lvl));
+        _upgradeCost = (int)(SELLER_BASE_UPGRADE_COST * Mathf.Pow(SELLER_UPGRADE_GROWTH_FACTOR, _lvl));
 
         _isUpgradeble = (money - _upgradeCost) >= 0;
         _upgradeButton.GetComponent<Button>().enabled = _isUpgradeble;

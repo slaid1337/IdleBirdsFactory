@@ -7,6 +7,10 @@ using Firebase.Analytics;
 
 public class LevelController : ControllerBase
 {
+    private const float LEVEL_UP_BASE_COST = 10f;          // Было 25
+    private const float LEVEL_UP_GROWTH_FACTOR = 1.3f;     // Было 1.5f
+    private const float LEVEL_UP_DIVISOR = 3f;             // Осталось 3f (делитель уровня)
+
     [SerializeField] private int _lvl;
     [SerializeField] private Text _lvlText;
     [SerializeField] private GameObject _barObject;
@@ -53,7 +57,7 @@ public class LevelController : ControllerBase
     
     private void CheckOnUpgrade(int money)
     {
-        _costToUp = (int)(25 * Mathf.Pow(1.5f, _lvl / 3f));
+        _costToUp = (int)(LEVEL_UP_BASE_COST * Mathf.Pow(LEVEL_UP_GROWTH_FACTOR, _lvl / LEVEL_UP_DIVISOR));
         _money += money;
         float barIndex = Mathf.Min((float)_money / _costToUp, 1f);
         _progressBar.GetComponent<RectTransform>().sizeDelta = Vector2.Lerp(new Vector2(0, _startSizeBar.y), _startSizeBar, barIndex);

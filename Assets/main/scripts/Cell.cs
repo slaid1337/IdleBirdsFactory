@@ -9,6 +9,11 @@ using Firebase.Analytics;
 
 public class Cell : ControllerBase
 {
+    private const float BASE_INCOME = 1f; // Было 12
+    private const float INCOME_GROWTH_FACTOR = 1.3f; // Было 1.5f
+    private const float BASE_UPGRADE_COST = 8f; // Было 12  
+    private const float UPGRADE_COST_GROWTH_FACTOR = 1.25f; // Было 1.5f
+
     [SerializeField] private GameController _gameController;
     [SerializeField] private int  _moneyPerSecond;
     [SerializeField] private int  _upgradeCost;
@@ -23,6 +28,7 @@ public class Cell : ControllerBase
     [SerializeField] private GameObject _upgradeButton;
     [SerializeField] private GameObject _unlockButton;
     [SerializeField] private GameObject _fullImage;
+
     private BirdObject _birdObject;
     private bool _isUpgradeble;
     private int _birdIndex;
@@ -201,12 +207,12 @@ public class Cell : ControllerBase
                 _fullImage.SetActive(true);
             }
 
-            _moneyPerSecond = (int)(12 * Mathf.Pow(1.5f, _stage) * _bonus);
+            _moneyPerSecond = (int)(BASE_INCOME  * Mathf.Pow(INCOME_GROWTH_FACTOR, _stage) * _bonus);
             ButtonEnabler(true);
 
             
 
-            _upgradeCost = (int)(12 * Mathf.Pow(1.5f, _stage) * Mathf.Max(_birdCount, 1));
+            _upgradeCost = (int)(BASE_UPGRADE_COST * Mathf.Pow(UPGRADE_COST_GROWTH_FACTOR, _stage) * Mathf.Max(_birdCount, 1));
             CheckOnUpgrade(_gameController.Money);
         }
         else
@@ -251,12 +257,12 @@ public class Cell : ControllerBase
                 em.rateOverTime = _birdCount;
 
                 _unlockButton.GetComponent<Button>().onClick.RemoveListener(OpenUnlockCard);
-                _moneyPerSecond = (int)(12 * Mathf.Pow(1.5f, _stage) * _bonus);
+                _moneyPerSecond = (int)(BASE_INCOME  * Mathf.Pow(INCOME_GROWTH_FACTOR, _stage) * _bonus);
                 ButtonEnabler(true);
 
                 _gameController.OnChangeMoney.AddListener(CheckOnUpgrade);
 
-                _upgradeCost = (int)(12 * Mathf.Pow(1.5f, _stage) * Mathf.Max(_birdCount, 1));
+                _upgradeCost = (int)(BASE_UPGRADE_COST * Mathf.Pow(UPGRADE_COST_GROWTH_FACTOR, _stage) * Mathf.Max(_birdCount, 1));
 
                 CheckOnUpgrade(_gameController.Money);
             }
@@ -335,7 +341,7 @@ public class Cell : ControllerBase
 
     public void Unlock()
     {
-        _upgradeCost = (int)(12 * Mathf.Pow(1.5f, _stage) * Mathf.Max(_birdCount, 1));
+        _upgradeCost = (int)(BASE_UPGRADE_COST * Mathf.Pow(UPGRADE_COST_GROWTH_FACTOR, _stage) * Mathf.Max(_birdCount, 1));
         _gameController.SpendMoney(_upgradeCost);
 
         _gameController.UnlockCard.GetComponent<UnlockCard>().CloseCard();
@@ -375,7 +381,7 @@ public class Cell : ControllerBase
 
         _gameController._availableBirds.Remove(_birdObject);
 
-        _moneyPerSecond = (int)(12 * Mathf.Pow(1.5f, _stage) * _bonus);
+        _moneyPerSecond = (int)(BASE_INCOME  * Mathf.Pow(INCOME_GROWTH_FACTOR, _stage) * _bonus);
 
         for (int i = 0; i < Birds.Length; i++)
         {
@@ -461,7 +467,7 @@ public class Cell : ControllerBase
 
     public void Upgrade()
     {
-        _upgradeCost = (int)(12 * Mathf.Pow(1.5f, _stage) * Mathf.Max(_birdCount, 1));
+        _upgradeCost = (int)(BASE_UPGRADE_COST * Mathf.Pow(UPGRADE_COST_GROWTH_FACTOR, _stage) * Mathf.Max(_birdCount, 1));
         Birds[_birdCount].transform.parent.gameObject.SetActive(true);
         _cellsBg[_birdCount].gameObject.SetActive(true);
         _birdCount += 1;
@@ -472,7 +478,7 @@ public class Cell : ControllerBase
         CheckOnUpgrade(_gameController.Money);
         _gameController.UpgradeCard.GetComponent<UpgradeCard>().Refresh();
 
-        _moneyPerSecond = (int)(12 * Mathf.Pow(1.5f, _stage) * _bonus);
+        _moneyPerSecond = (int)(BASE_INCOME  * Mathf.Pow(INCOME_GROWTH_FACTOR, _stage) * _bonus);
 
         SendOnUpgrade(1);
 
@@ -510,7 +516,7 @@ public class Cell : ControllerBase
 
     private void CheckOnUpgrade(int money)
     {
-        _upgradeCost = (int)(12 * Mathf.Pow(1.5f, _stage) * Mathf.Max(_birdCount, 1));
+        _upgradeCost = (int)(BASE_UPGRADE_COST * Mathf.Pow(UPGRADE_COST_GROWTH_FACTOR, _stage) * Mathf.Max(_birdCount, 1));
         _isUpgradeble = (money - _upgradeCost) >= 0;
         ButtonEnabler( _isUpgradeble);
     }
